@@ -18,6 +18,13 @@
                         <span>ID: {{ product.id }}</span>
                     </div>
                 </div>
+                <div class="product-meta">
+                        <span>ID: {{ product.id }}</span>
+                        <form action="/Delete" method="get" style="display:inline;">
+                            <input type="hidden" name="id" value="{{ product.id }}">
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                </div>
             </div>
         {% endfor %}
     {% else %}

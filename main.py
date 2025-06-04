@@ -6,6 +6,8 @@ import configparser
 from sqlalchemy import create_engine
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import sessionmaker
+import requests
+import json
 from models import Products
 
 config = configparser.ConfigParser()
@@ -55,13 +57,12 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    # Example product list from your database
     products = [
-        {"id": 1, "name_product": "Test Product", "price": 28, "profit": 100, "fee": 1000, "image_address": "/static/images/test.jpg"},
+        {"id": 1, "name_product": "Test Product", "price": 28, "profit": 100, "fee": 1000, "image_address": "/static/images/images.png"},
         {"id": 1, "name_product": "Test Product", "price": 28, "profit": 100, "fee": 1000,
-         "image_address": "/static/images/test.jpg"},
+         "image_address": "/static/images/images.png"},
         {"id": 1, "name_product": "Test Product", "price": 28, "profit": 100, "fee": 1000,
-         "image_address": "/static/images/test.jpg"}
+         "image_address": "/static/images/images.png"}
     ]
     return templates.TemplateResponse("index.html", {"request": request, "products": products})
 
