@@ -11,7 +11,7 @@ from models import Products
 
 # Load configuration from config.ini
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('Config.ini')
 
 # Get API configuration
 API_HOST = config.get('api', 'host', fallback='0.0.0.0')
