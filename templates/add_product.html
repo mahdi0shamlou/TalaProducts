@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Add New Product - ProductHub{% endblock %}
+{% block content %}
+<h1 class="main-title">Add New Product</h1>
+
+<div class="form-container">
+    <form method="post" action="/Add" enctype="multipart/form-data" class="product-form">
+        <!-- Error Message Container -->
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <div class="form-group">
+            <label class="form-label">Product Name</label>
+            <input type="text" name="name_product" class="form-input" required
+                   pattern=".{3,}" title="Minimum 3 characters">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Base Price (Fee)</label>
+            <input type="number" name="fee" class="form-input" required
+                   min="0" step="0.01">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Profit Margin</label>
+            <input type="number" name="profit" class="form-input" required
+                   min="0" step="0.01">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Weight (grams)</label>
+            <input type="number" name="weight" class="form-input" required
+                   min="1" step="1">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Product Image</label>
+            <input type="file" name="image" class="form-input" accept="image/*" required>
+            <small class="text-muted">Supported formats: JPG, PNG, GIF</small>
+            <small class="text-muted d-block mt-1">Maximum file size: 5MB</small>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-plus"></i> Add Product
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

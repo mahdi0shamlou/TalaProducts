@@ -4,3 +4,4 @@ sqlalchemy
 pymysql
 mysqlclient
 jinja2
+python-multipart

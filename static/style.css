@@ -357,3 +357,140 @@ footer {
         margin-bottom: 0.75rem !important;
     }
 }
+
+/* static/style.css - Add these to existing CSS */
+
+/* Product Actions */
+.product-actions {
+    margin-top: 1.2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.delete-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.delete-button i {
+    font-size: 0.9rem;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+}
+
+.modal h3 {
+    margin-bottom: 1rem;
+    color: var(--dark);
+}
+
+.modal p {
+    margin-bottom: 1.5rem;
+    color: var(--gray);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* Font Awesome Icons */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+/* No products message */
+.no-products {
+    text-align: center;
+    grid-column: 1 / -1;
+    padding: 2rem;
+    color: var(--gray);
+    font-size: 1.2rem;
+}
+/* Form Enhancements */
+.product-form {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.text-muted {
+    color: var(--gray);
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 0.3rem;
+}
+
+.btn-primary {
+    background: var(--secondary);
+}
+
+.btn-primary:hover {
+    background: var(--accent);
+}
+/* In static/style.css */
+.alert {
+    background: var(--danger);
+    color: white;
+    padding: 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.d-block {
+    display: block;
+}
+
+.mt-1 { margin-top: 0.5rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+
+/* File Input Styling */
+.form-input[type="file"] {
+    padding: 0.6rem;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+/* Responsive Form */
+@media (max-width: 768px) {
+    .form-group {
+        margin-bottom: 1.2rem;
+    }
+
+    .btn-block {
+        font-size: 1rem;
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+/* Icon Support */
+.fas {
+    margin-right: 0.5rem;
+}
