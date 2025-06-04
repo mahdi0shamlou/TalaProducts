@@ -157,8 +157,8 @@ async def create_product(
         # Create product
         db_product = Products(
             name_product=name_product,
-            fee=int(fee * 100),  # Store as cents
-            profit=int(profit * 100),
+            fee=int(fee),  # Store as cents
+            profit=int(profit),
             weight=weight,
             image_address=f"/static/images/{safe_filename}"
         )
