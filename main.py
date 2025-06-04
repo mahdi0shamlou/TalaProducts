@@ -1,12 +1,11 @@
-from fastapi import FastAPI, Request, Depends
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-from pathlib import Path
 import uvicorn
 import configparser
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
-from sqlalchemy.ext.declarative import declarative_base
+from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import sessionmaker
 from models import Products
 
 config = configparser.ConfigParser()
@@ -51,25 +50,20 @@ app = FastAPI(
 # Mount static directory (for CSS, JS, images)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# HTML Templates directory
-TEMPLATE_DIR = Path("templates")
-
-def render_template(template_name: str, request: Request, **context):
-    """Flask-like template renderer"""
-    with open(TEMPLATE_DIR / template_name) as f:
-        content = f.read()
-    # Simple template context replacement
-    for key, value in context.items():
-        content = content.replace("{{ " + key + " }}", str(value))
-    return HTMLResponse(content)
-
+# Initialize templates directory
+templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
-    """Home page with template rendering"""
-    list_products = []
-
-    return render_template("index.html", request, title="Home Page", message="Welcome!")
+    # Example product list from your database
+    products = [
+        {"id": 1, "name_product": "Test Product", "price": 28, "profit": 100, "fee": 1000, "image_address": "/static/images/test.jpg"},
+        {"id": 1, "name_product": "Test Product", "price": 28, "profit": 100, "fee": 1000,
+         "image_address": "/static/images/test.jpg"},
+        {"id": 1, "name_product": "Test Product", "price": 28, "profit": 100, "fee": 1000,
+         "image_address": "/static/images/test.jpg"}
+    ]
+    return templates.TemplateResponse("index.html", {"request": request, "products": products})
 
 
 @app.get("/Add", response_class=HTMLResponse)

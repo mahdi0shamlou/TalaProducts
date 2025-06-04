@@ -274,3 +274,86 @@ footer {
     background: var(--light-gray);
     padding: 10px;
 }
+/* Add viewport meta tag in HTML for mobile responsiveness */
+/* <meta name="viewport" content="width=device-width, initial-scale=1"> */
+
+/* Existing variables and resets remain unchanged */
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+    html {
+        font-size: 87.5%; /* 14px for better mobile readability */
+    }
+
+    .main-title {
+        font-size: 1.5rem;
+    }
+
+    .product-title {
+        font-size: 1rem;
+    }
+}
+
+/* Product Grid Adjustments */
+.products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Smaller min width */
+    gap: 1.5rem; /* Reduced gap for compact mobile view */
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        margin-top: 0.5rem;
+    }
+
+    nav a {
+        padding: 0.3rem 0.7rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Touch-Friendly Forms */
+.form-input,
+.form-textarea,
+.form-select {
+    padding: 0.85rem; /* Slightly larger for touch */
+    font-size: 1rem; /* Improved readability */
+}
+
+.btn {
+    padding: 1rem 1.75rem; /* Larger buttons */
+    font-size: 1rem;
+}
+
+/* Responsive Product Card */
+.product-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-image {
+    height: auto; /* Maintain aspect ratio */
+    max-height: 200px; /* Prevent oversized images */
+    object-fit: cover;
+}
+
+/* Responsive Meta Info */
+.product-meta {
+    flex-wrap: wrap; /* Prevent overflow on small screens */
+    gap: 0.5rem;
+}
+
+/* Utility Classes for Spacing */
+@media (max-width: 768px) {
+    .mt-1, .mb-1 {
+        margin-top: 0.75rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+}

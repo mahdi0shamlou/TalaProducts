@@ -1,51 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>ProductHub</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <!-- Add Font Awesome for icons if needed -->
-</head>
-<body>
-    <header>
-        <div class="container navbar">
-            <div class="logo">
-                <i>🛒</i> <!-- Or use Font Awesome icon -->
-                <span>ProductHub</span>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/Add">Add Product</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+{% extends "base.html" %}
 
-    <main class="container">
-        <h1 class="main-title">Our Products</h1>
+{% block title %}Home - ProductHub{% endblock %}
 
-        <div class="products-grid">
-            <!-- Product cards loop -->
+{% block content %}
+<h1 class="main-title">Our Products</h1>
+
+<div class="products-grid">
+    {% if products %}
+        {% for product in products %}
             <div class="product-card">
-                <img src="/static/product1.jpg" alt="Product" class="product-image">
+                <img src="{{ product.image_address }}" alt="{{ product.name_product }}" class="product-image">
                 <div class="product-info">
-                    <h3 class="product-title">Premium Headphones</h3>
-                    <p class="product-description">Noise-cancelling wireless headphones with 30hr battery</p>
-                    <div class="product-price">$129.99</div>
+                    <h3 class="product-title">{{ product.name_product }}</h3>
+                    <p class="product-description">Fee: ${{ product.fee }} | Profit: ${{ product.profit }}</p>
+                    <div class="product-price">$ {{ product.price }}</div>
                     <div class="product-meta">
-                        <span>⭐ 4.8 (120)</span>
-                        <span>Category: Electronics</span>
+                        <span>ID: {{ product.id }}</span>
                     </div>
                 </div>
             </div>
-            <!-- End product card -->
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>© 2023 ProductHub. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+        {% endfor %}
+    {% else %}
+        <p>No products found.</p>
+    {% endif %}
+</div>
+{% endblock %}
