@@ -1,9 +1,13 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 import uvicorn
 import configparser
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.ext.declarative import declarative_base
+from models import Products
 
 # Load configuration from config.ini
 config = configparser.ConfigParser()
@@ -15,6 +19,29 @@ API_PORT = config.getint('api', 'port', fallback=8585)
 API_DEBUG = config.getboolean('api', 'debug', fallback=False)
 API_TITLE = config.get('api', 'title', fallback='FastAPI App')
 API_DESCRIPTION = config.get('api', 'description', fallback='')
+
+# Database Config
+DB_USER = config.get('mysql', 'user')
+DB_PASSWORD = config.get('mysql', 'password')
+DB_HOST = config.get('mysql', 'host')
+DB_PORT = config.get('mysql', 'port', fallback='3306')
+DB_NAME = config.get('mysql', 'database')
+
+# Build SQLAlchemy URI
+SQLALCHEMY_DATABASE_URL = f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+# SQLAlchemy Setup
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+
+# Dependency to get DB session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 # Create FastAPI app with config values
 app = FastAPI(
@@ -58,6 +85,12 @@ async def home(request: Request):
 async def home(request: Request):
     """get an id and delete form db"""
     pass
+
+# --- Startup Event: Create Tables ---
+@app.on_event("startup")
+def on_startup():
+    Base.metadata.create_all(bind=engine)
+    print("✅ Database tables created or already exist.")
 
 # --- Start Server ---
 if __name__ == "__main__":
