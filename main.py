@@ -3,8 +3,25 @@ from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 import uvicorn
+import configparser
 
-app = FastAPI()
+# Load configuration from config.ini
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+# Get API configuration
+API_HOST = config.get('api', 'host', fallback='0.0.0.0')
+API_PORT = config.getint('api', 'port', fallback=8585)
+API_DEBUG = config.getboolean('api', 'debug', fallback=False)
+API_TITLE = config.get('api', 'title', fallback='FastAPI App')
+API_DESCRIPTION = config.get('api', 'description', fallback='')
+
+# Create FastAPI app with config values
+app = FastAPI(
+    title=API_TITLE,
+    description=API_DESCRIPTION,
+    debug=API_DEBUG
+)
 
 # Mount static directory (for CSS, JS, images)
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -31,4 +48,9 @@ async def home(request: Request):
 
 # --- Start Server ---
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(
+        "main:app",
+        host=API_HOST,
+        port=API_PORT,
+        reload=API_DEBUG
+    )
