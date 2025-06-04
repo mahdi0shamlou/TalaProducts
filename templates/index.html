@@ -67,18 +67,39 @@
 <script>
 function copyText(elementId) {
     const textElement = document.getElementById(elementId);
-    // Get the text content instead of trying to select the element
     const textToCopy = textElement.textContent || textElement.innerText;
 
-    // Use the modern Clipboard API
-    navigator.clipboard.writeText(textToCopy)
-        .then(() => {
-            alert("متن با موفقیت کپی شد!");
-        })
-        .catch(err => {
-            console.error('Failed to copy: ', err);
-            alert("کپی متن با خطا مواجه شد.");
-        });
+    if (navigator.clipboard) {
+        // Modern Clipboard API (works in HTTPS/localhost)
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => alert("متن با موفقیت کپی شد!"))
+            .catch(err => {
+                console.error('Clipboard API failed:', err);
+                fallbackCopy(textToCopy); // Use fallback method
+            });
+    } else {
+        // Fallback method for HTTP
+        fallbackCopy(textToCopy);
+    }
+}
+
+function fallbackCopy(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.opacity = 0;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+        const successful = document.execCommand('copy');
+        alert(successful ? "متن کپی شد!" : "کپی با خطا مواجه شد");
+    } catch (err) {
+        alert("خطا در کپی کردن متن");
+        console.error('Fallback copy failed:', err);
+    } finally {
+        document.body.removeChild(textArea);
+    }
 }
 </script>
 <script>
