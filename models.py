@@ -1,14 +1,16 @@
-from flask_sqlalchemy import SQLAlchemy
+# models.py
+from sqlalchemy import Column, Integer, String, Text, DateTime
+from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 
-db = SQLAlchemy()
+Base = declarative_base()
 
-class Products(db.Model):
+class Products(Base):
     __tablename__ = 'products'
-    id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
-    image_address = db.Column(db.Text, unique=True, nullable=False)
-    name_product = db.Column(db.String(191), nullable=False)
-    fee = db.Column(db.Integer, nullable=False)
-    profit = db.Column(db.Integer, nullable=False)
-    weight = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    image_address = Column(Text, unique=True, nullable=False)
+    name_product = Column(String(191), nullable=False)
+    fee = Column(Integer, nullable=False)
+    profit = Column(Integer, nullable=False)
+    weight = Column(Integer, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
