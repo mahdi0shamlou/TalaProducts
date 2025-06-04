@@ -4,7 +4,7 @@
 {% block title %}Home - ProductHub{% endblock %}
 
 {% block content %}
-<h1 class="main-title">Our Products</h1>
+<h1 class="main-title">Our Products by Tala : {{ Tala }}</h1>
 <!-- Add this before the products grid -->
 <div class="container mt-2">
     <a href="/Add" class="btn btn-primary">+ Add New Product</a>
@@ -16,8 +16,27 @@
                 <img src="{{ product.image_address }}" alt="{{ product.name_product }}" class="product-image">
                 <div class="product-info">
                     <h3 class="product-title">{{ product.name_product }}</h3>
-                    <p class="product-description">Fee: ${{ product.fee }} | Profit: ${{ product.profit }}</p>
-                    <div class="product-price">$ {{ product.fee + product.profit }}</div>
+                    <p class="product-description">Fee: {{ product.fee }}% | Profit: {{ product.profit }}% | weight: {{ product.weight }}g</p>
+                    <div class="product-price">$ {{ product.price }}</div>
+
+
+                    <!-- Description Paragraph -->
+                    <!-- With this cleaner version: -->
+                    <p id="text-def-{{ product.id }}" class="product-description">
+                    سلام مهر بی کران
+                    اجرت: ٪{{ product.fee }} + ٪{{ product.profit }}
+                    وزن: {{ product.weight }} گرم
+                    قیمت هر عدد در این لحظه: {{ product.price }} تومان
+                    </p>
+
+                    <!-- Copy Button -->
+
+                    <div class="product-actions">
+                            <input type="hidden" name="id" value="{{ product.id }}">
+                            <button class="btn btn-sm btn-secondary" onclick="copyText('text-def-{{ product.id }}')">
+                                <i class="fas fa-copy"></i> کپی متن
+                            </button>
+                    </div>
                     <div class="product-actions">
                         <form action="/delete" method="post">
                             <input type="hidden" name="id" value="{{ product.id }}">
@@ -45,9 +64,23 @@
         </div>
     </div>
 </div>
-{% endblock %}
+<script>
+function copyText(elementId) {
+    const textElement = document.getElementById(elementId);
+    // Get the text content instead of trying to select the element
+    const textToCopy = textElement.textContent || textElement.innerText;
 
-{% block scripts %}
+    // Use the modern Clipboard API
+    navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+            alert("متن با موفقیت کپی شد!");
+        })
+        .catch(err => {
+            console.error('Failed to copy: ', err);
+            alert("کپی متن با خطا مواجه شد.");
+        });
+}
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('deleteModal');
@@ -81,4 +114,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+{% endblock %}
+
+{% block scripts %}
+
+
 {% endblock %}

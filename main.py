@@ -71,7 +71,26 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request, db: Session = Depends(get_db)):
+    req_url = "https://www.tala.ir/banner/?rnd=lUYlwLPFSA&ids=1001,&is-mobile=0&android=0&ios=0&rnd=1263&h=1080&w=1920"
+    header = {
+        "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Connection": "keep-alive",
+        "User-Agent" : "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:136.0) Gecko/20100101 Firefox/136.0",
+        "Cookie": "PHPSESSID=713ita9n0bg96lctoigkse83ih; _trc=17490238888010691083622c563813e1f1d85119d6; MEDIAAD_USER_ID=d5628e49-21e2-469c-96d1-8284ff30138d; _ga=GA1.2.815158700.1749023889; _gid=GA1.2.1498362061.1749023889"
+    }
+    try:
+        req_response = requests.get(req_url, headers=header)
+        req_response.raise_for_status()  # Raises an exception for HTTP errors
+        req_response_json = req_response.json()  # Direct method to get JSON
+        print(req_response_json)
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
+    except json.JSONDecodeError as e:
+        print(f"Failed to parse JSON: {e}")
     products = db.query(Products).all()
+    tala = int(req_response_json['price']['geram18'].replace(',', ''))
 
     # Convert ORM objects to a list of dictionaries
     product_list = [
@@ -80,11 +99,14 @@ async def home(request: Request, db: Session = Depends(get_db)):
             "name_product": product.name_product,
             "profit": product.profit,
             "fee": product.fee,
-            "image_address": product.image_address
+            "price": round((tala * ((product.fee+100)/100) * ((product.profit+100)/100) * product.weight)),
+            "weight": product.weight,
+            "image_address": product.image_address,
+            "text_def" : f"<br> سلام مهر بی کران اجرت: {product.fee} + {product.profit} <br> وزن : {product.weight} <br> قیمت هر عدد در این لحظه : {round((tala * ((product.fee+100)/100) * ((product.profit+100)/100) * product.weight))} تومان"
         }
         for product in products
     ]
-    return templates.TemplateResponse("index.html", {"request": request, "products": product_list})
+    return templates.TemplateResponse("index.html", {"request": request, "products": product_list, "Tala": tala})
 
 
 # Create upload directory if not exists
