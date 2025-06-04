@@ -1,10 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ title }}</title>
+    <title>ProductHub</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Add Font Awesome for icons if needed -->
 </head>
 <body>
-    <h1>{{ message }}</h1>
-    <p>Visit <a href="/about">about page</a></p>
+    <header>
+        <div class="container navbar">
+            <div class="logo">
+                <i>🛒</i> <!-- Or use Font Awesome icon -->
+                <span>ProductHub</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/products">Products</a></li>
+                    <li><a href="/upload">Add Product</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="main-title">Our Products</h1>
+
+        <div class="products-grid">
+            <!-- Product cards loop -->
+            <div class="product-card">
+                <img src="/static/product1.jpg" alt="Product" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Premium Headphones</h3>
+                    <p class="product-description">Noise-cancelling wireless headphones with 30hr battery</p>
+                    <div class="product-price">$129.99</div>
+                    <div class="product-meta">
+                        <span>⭐ 4.8 (120)</span>
+                        <span>Category: Electronics</span>
+                    </div>
+                </div>
+            </div>
+            <!-- End product card -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 ProductHub. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

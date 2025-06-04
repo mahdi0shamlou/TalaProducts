@@ -44,7 +44,20 @@ def render_template(template_name: str, request: Request, **context):
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Home page with template rendering"""
+    list_products = []
+
     return render_template("index.html", request, title="Home Page", message="Welcome!")
+
+
+@app.get("/Add", response_class=HTMLResponse)
+async def home(request: Request):
+    """create a new products"""
+    pass
+
+@app.get("/Delete", response_class=HTMLResponse)
+async def home(request: Request):
+    """get an id and delete form db"""
+    pass
 
 # --- Start Server ---
 if __name__ == "__main__":
