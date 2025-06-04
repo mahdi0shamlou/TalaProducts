@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}ProductHub{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Add Font Awesome for icons if needed -->
+</head>
+<body>
+    <header>
+        <div class="container navbar">
+            <div class="logo">
+                <i>🛒</i> <!-- Or use Font Awesome icon -->
+                <span>ProductHub</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/Add">Add Product</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 ProductHub. All rights reserved. Fuck you Amir</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -9,7 +9,6 @@ from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.ext.declarative import declarative_base
 from models import Products
 
-# Load configuration from config.ini
 config = configparser.ConfigParser()
 config.read('Config.ini')
 
@@ -33,7 +32,6 @@ SQLALCHEMY_DATABASE_URL = f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_H
 # SQLAlchemy Setup
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
 
 # Dependency to get DB session
 def get_db():
@@ -60,11 +58,9 @@ def render_template(template_name: str, request: Request, **context):
     """Flask-like template renderer"""
     with open(TEMPLATE_DIR / template_name) as f:
         content = f.read()
-
     # Simple template context replacement
     for key, value in context.items():
         content = content.replace("{{ " + key + " }}", str(value))
-
     return HTMLResponse(content)
 
 
@@ -85,12 +81,6 @@ async def home(request: Request):
 async def home(request: Request):
     """get an id and delete form db"""
     pass
-
-# --- Startup Event: Create Tables ---
-@app.on_event("startup")
-def on_startup():
-    Base.metadata.create_all(bind=engine)
-    print("✅ Database tables created or already exist.")
 
 # --- Start Server ---
 if __name__ == "__main__":
